@@ -69,22 +69,19 @@ const galleryItems = [
   },
 ];
 
-const stack = [
-  "TypeScript",
-  "Python",
-  "PHP",
-  "C#",
-  "Next.js",
-  "React",
-  "Angular",
-  "Nest.js",
-  "Symfony",
-  "Fastify",
-  ".NET",
-  "MongoDB",
-  "MySQL",
-  "Docker",
-  "CircleCI",
+const stackGroups = [
+  {
+    title: "Backend & APIs",
+    items: ["TypeScript", "Fastify", "Nest.js", "Python", "C# / .NET", "PHP / Symfony"],
+  },
+  {
+    title: "Frontend",
+    items: ["React", "Next.js", "Angular", "Tailwind CSS"],
+  },
+  {
+    title: "Data & DevOps",
+    items: ["MySQL", "MongoDB", "Docker", "CircleCI"],
+  },
 ];
 
 function GitHubIcon() {
@@ -291,25 +288,36 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 pb-24 md:px-8">
-        <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 md:p-8">
-          <div className="mb-6 flex items-center gap-3">
-                <span className="h-px w-10 bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
-                <p className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
-                  Stack
-                </p>
-              </div>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {stack.map((tech) => (
-              <span
-                key={tech}
-                className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm text-white/70"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
+  <div className="mb-8 flex items-center gap-3">
+    <span className="h-px w-10 bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
+    <h2 className="text-sm font-semibold uppercase text-[#89AACC]">
+      Environnement technique
+    </h2>
+  </div>
+
+  <div className="grid gap-6 md:grid-cols-3">
+    {stackGroups.map((group) => (
+      <div 
+        key={group.title} 
+        className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 transition-colors hover:border-white/15"
+      >
+        <p className="mb-5 font-serif text-xl italic text-white/80">
+          {group.title}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {group.items.map((tech) => (
+            <span
+              key={tech}
+              className="rounded-full border border-white/10 bg-black/30 px-3 py-1.5 text-sm text-white/70 transition-all duration-300 hover:border-[#89AACC]/40 hover:bg-white/[0.06] hover:text-white"
+            >
+              {tech}
+            </span>
+          ))}
         </div>
-      </section>
+      </div>
+    ))}
+  </div>
+</section>
 
       <ParallaxGallery galleryItems={galleryItems} />
 

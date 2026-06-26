@@ -297,7 +297,7 @@ export default function Home() {
           {Array.from({ length: 2 }).map((_, index) => (
             <div key={index} className="flex items-center gap-6">
               <span>CONTACT</span>
-              <span className="font-serif italic opacity-50">
+              <span className="opacity-50">
                 Adam Salama
               </span>
             </div>

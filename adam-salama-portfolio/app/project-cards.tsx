@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { Dictionary } from "./i18n";
 import { Plus } from "lucide-react";
 
@@ -15,12 +15,98 @@ type ProjectCardsProps = {
   };
 };
 
+const MIN_DESKTOP_IDLE_ROW_HEIGHT = 300;
+const MIN_DESKTOP_ACTIVE_ROW_HEIGHT = 180;
+
+type DesktopRowHeights = {
+  idle: number;
+  active: number;
+};
+
+type ProjectGridStyle = CSSProperties & {
+  "--project-idle-row-height": string;
+  "--project-active-row-height": string;
+};
+
+function getMinimizedPosition(activeIndex: number | null, index: number, isActive: boolean) {
+  if (activeIndex === null || isActive) {
+    return -1;
+  }
+
+  return index < activeIndex ? index : index - 1;
+}
+
+function areDesktopRowHeightsEqual(first: DesktopRowHeights, second: DesktopRowHeights) {
+  return (
+    Math.abs(first.idle - second.idle) <= 1 &&
+    Math.abs(first.active - second.active) <= 1
+  );
+}
+
+function measureDesktopRowHeights(
+  gridElement: HTMLDivElement | null,
+  cardElements: ReadonlyMap<number, HTMLButtonElement>,
+  activeIndex: number | null,
+): DesktopRowHeights {
+  if (!gridElement || !window.matchMedia("(min-width: 1024px)").matches) {
+    return {
+      idle: MIN_DESKTOP_IDLE_ROW_HEIGHT,
+      active: MIN_DESKTOP_ACTIVE_ROW_HEIGHT,
+    };
+  }
+
+  const rowGap = Number.parseFloat(window.getComputedStyle(gridElement).rowGap) || 0;
+  let nextIdleHeight = MIN_DESKTOP_IDLE_ROW_HEIGHT;
+  let nextActiveHeight = MIN_DESKTOP_ACTIVE_ROW_HEIGHT;
+
+  cardElements.forEach((card, index) => {
+    const isCardActive = activeIndex === index;
+    const isCardMinimized = activeIndex !== null && !isCardActive;
+    const minimizedPosition = getMinimizedPosition(activeIndex, index, isCardActive);
+    const rowSpan = isCardActive || (isCardMinimized && minimizedPosition === 0) ? 2 : 1;
+    const borderHeight = card.offsetHeight - card.clientHeight;
+    const trueContentHeight = card.scrollHeight + borderHeight;
+    
+    const requiredRowHeight = Math.ceil((trueContentHeight - rowGap * (rowSpan - 1)) / rowSpan);
+
+    if (activeIndex === null) {
+      nextIdleHeight = Math.max(nextIdleHeight, requiredRowHeight);
+      return;
+    }
+
+    nextActiveHeight = Math.max(nextActiveHeight, requiredRowHeight);
+  });
+
+  return {
+    idle: nextIdleHeight,
+    active: nextActiveHeight,
+  };
+}
+
 export function ProjectCards({ projects, labels }: ProjectCardsProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const activeIndexRef = useRef(activeIndex);
   const [hasInteractedWithProjects, setHasInteractedWithProjects] = useState(false);
+  const [desktopRowHeights, setDesktopRowHeights] = useState<DesktopRowHeights>({
+    idle: MIN_DESKTOP_IDLE_ROW_HEIGHT,
+    active: MIN_DESKTOP_ACTIVE_ROW_HEIGHT,
+  });
+  const gridElementRef = useRef<HTMLDivElement | null>(null);
   const cardElementsRef = useRef(new Map<number, HTMLButtonElement>());
   const previousRectsRef = useRef<Map<number, DOMRect> | null>(null);
   const projectAnimationFrameRef = useRef(0);
+
+  const captureProjectRects = () =>
+    new Map(
+      Array.from(cardElementsRef.current, ([cardIndex, card]) => [
+        cardIndex,
+        card.getBoundingClientRect(),
+      ]),
+    );
+
+  useLayoutEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   useEffect(() => {
     if (activeIndex === null || !window.matchMedia("(max-width: 767px)").matches) {
@@ -43,10 +129,83 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
   }, [activeIndex]);
 
   useLayoutEffect(() => {
+    const gridElement = gridElementRef.current;
+
+    if (!gridElement) {
+      return;
+    }
+
+    let frame = 0;
+    let measuredGridWidth = 0;
+
+    const measureRows = () => {
+      const nextRowHeights = measureDesktopRowHeights(
+        gridElement,
+        cardElementsRef.current,
+        activeIndexRef.current,
+      );
+
+      setDesktopRowHeights((currentHeights) => {
+        if (areDesktopRowHeightsEqual(currentHeights, nextRowHeights)) {
+          return currentHeights;
+        }
+
+        if (previousRectsRef.current === null) {
+          previousRectsRef.current = captureProjectRects();
+        }
+
+        return nextRowHeights;
+      });
+    };
+
+    const scheduleMeasure = (force = false) => {
+      const gridWidth = gridElement.clientWidth;
+
+      if (!force && Math.abs(gridWidth - measuredGridWidth) < 1) {
+        return;
+      }
+
+      measuredGridWidth = gridWidth;
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(measureRows);
+    };
+
+    scheduleMeasure(true);
+
+    const resizeObserver = new ResizeObserver(() => scheduleMeasure());
+    resizeObserver.observe(gridElement);
+    const handleResize = () => scheduleMeasure();
+    window.addEventListener("resize", handleResize);
+    document.fonts?.ready.then(() => scheduleMeasure(true));
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [projects.length]);
+
+  useLayoutEffect(() => {
     const previousRects = previousRectsRef.current;
+
+    if (!previousRects) {
+      return;
+    }
+
+    const nextRowHeights = measureDesktopRowHeights(
+      gridElementRef.current,
+      cardElementsRef.current,
+      activeIndex,
+    );
+
+    if (!areDesktopRowHeightsEqual(desktopRowHeights, nextRowHeights)) {
+      setDesktopRowHeights(nextRowHeights);
+      return;
+    }
+
     previousRectsRef.current = null;
 
-    if (!previousRects || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
 
@@ -121,17 +280,12 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
         card.style.removeProperty("--project-flip-scale-y");
       });
     };
-  }, [activeIndex]);
+  }, [activeIndex, desktopRowHeights]);
 
   const updateActiveProject = (index: number) => {
     const nextIndex = activeIndex === index ? null : index;
 
-    previousRectsRef.current = new Map(
-      Array.from(cardElementsRef.current, ([cardIndex, card]) => [
-        cardIndex,
-        card.getBoundingClientRect(),
-      ]),
-    );
+    previousRectsRef.current = captureProjectRects();
 
     if (window.matchMedia("(max-width: 767px)").matches) {
       setHasInteractedWithProjects(true);
@@ -140,16 +294,22 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
     setActiveIndex(nextIndex);
   };
 
+  const projectGridStyle: ProjectGridStyle = {
+    "--project-idle-row-height": `${desktopRowHeights.idle}px`,
+    "--project-active-row-height": `${desktopRowHeights.active}px`,
+  };
+
   return (
     <div
-      className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:auto-rows-[minmax(230px,auto)] md:grid-cols-3 lg:grid-flow-dense lg:auto-rows-[300px] data-[project-grid=active]:lg:auto-rows-[180px]"
+      ref={gridElementRef}
+      className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:auto-rows-[minmax(230px,auto)] md:grid-cols-3 lg:grid-flow-dense lg:auto-rows-[minmax(var(--project-idle-row-height),auto)] data-[project-grid=active]:lg:auto-rows-[minmax(var(--project-active-row-height),auto)]"
       data-project-grid={activeIndex === null ? "idle" : "active"}
+      style={projectGridStyle}
     >
       {projects.map((item, index) => {
         const isActive = activeIndex === index;
         const isMinimized = activeIndex !== null && !isActive;
-        const minimizedPosition =
-          activeIndex === null || isActive ? -1 : index < activeIndex ? index : index - 1;
+        const minimizedPosition = getMinimizedPosition(activeIndex, index, isActive);
         const isTallMinimized = minimizedPosition === 0;
 
         return (
@@ -226,7 +386,7 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
                     className={[
                       "mt-4 max-w-xl text-sm leading-7 text-white/58 transition duration-500 md:leading-6 xl:leading-7",
                       !isActive ? "line-clamp-3" : "",
-                      isActive ? "lg:mt-3 lg:line-clamp-3 lg:text-[13px] lg:leading-6" : "",
+                      isActive ? "lg:mt-3 lg:text-[13px] lg:leading-6" : "",
                       isMinimized ? "hidden opacity-[0.62] sm:line-clamp-2 sm:block" : "",
                       isMinimized && !isTallMinimized ? "lg:hidden" : "",
                       isTallMinimized ? "lg:line-clamp-3" : "",
@@ -240,13 +400,13 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
                   className={[
                     "overflow-hidden transition-[max-height,opacity,transform] duration-[620ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
                     isActive
-                      ? "max-h-[520px] translate-y-0 opacity-100 sm:max-h-[460px] lg:max-h-[220px]"
+                      ? "max-h-[1400px] translate-y-0 opacity-100"
                       : "max-h-0 translate-y-3 opacity-0",
                   ].join(" ")}
                   aria-hidden={!isActive}
                 >
                   <div className="min-h-0">
-                    <p className="text-sm leading-7 text-white/68 lg:line-clamp-4 lg:text-[13px] lg:leading-6">
+                    <p className="text-sm leading-7 text-white/68 lg:text-[13px] lg:leading-6">
                       {item.fullDescription}
                     </p>
                     <div className="mt-6 lg:mt-4">

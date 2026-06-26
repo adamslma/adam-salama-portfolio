@@ -60,12 +60,23 @@ export function LoadingCounter() {
 
 export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] }) {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
   const galleryRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     let frame = 0;
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+
+    const syncDesktopState = () => {
+      setIsDesktop(mediaQuery.matches);
+    };
 
     const update = () => {
+      if (!mediaQuery.matches) {
+        setScrollProgress(0);
+        return;
+      }
+
       if (!galleryRef.current) {
         return;
       }
@@ -81,16 +92,66 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
       frame = requestAnimationFrame(update);
     };
 
+    syncDesktopState();
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    mediaQuery.addEventListener("change", syncDesktopState);
 
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      mediaQuery.removeEventListener("change", syncDesktopState);
     };
   }, []);
+
+  if (!isDesktop) {
+    return (
+      <section id="explore" className="border-y border-white/10 bg-[#07090d] px-5 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10">
+            <div className="mb-6 flex items-center gap-3">
+              <span className="h-px w-10 bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
+              <p className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
+                Exploration
+              </p>
+            </div>
+            <h2 className="text-5xl font-semibold leading-none text-white">
+              Une lecture
+              <span className="block font-serif italic text-[#dfe9f4]">en mouvement.</span>
+            </h2>
+            <p className="mt-6 max-w-sm text-sm leading-7 text-white/54">
+              Chaque panneau met en avant une facette du profil: architecture, automatisation,
+              interfaces metier et delivery.
+            </p>
+          </div>
+
+          <div className="grid gap-4">
+            {galleryItems.map((item, index) => (
+              <article
+                key={item.title}
+                className="relative min-h-[320px] overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.055] p-5 shadow-2xl shadow-black/35 backdrop-blur-md"
+              >
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(137,170,204,0.16),transparent_38%)]" />
+                <div className="relative flex min-h-[280px] flex-col justify-between">
+                  <div>
+                    <p className="text-xs font-semibold uppercase text-[#89AACC]">{item.label}</p>
+                    <h3 className="mt-5 text-3xl font-semibold text-white">{item.title}</h3>
+                    <p className="mt-5 max-w-sm text-sm leading-7 text-white/58">{item.text}</p>
+                  </div>
+                  <div className="flex items-end justify-between">
+                    <span className="font-serif text-7xl italic text-white/10">0{index + 1}</span>
+                    <span className="h-10 w-10 rounded-full bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section

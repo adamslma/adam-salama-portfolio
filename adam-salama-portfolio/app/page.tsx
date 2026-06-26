@@ -147,9 +147,9 @@ export default function Home() {
 
       <section id="top" className="relative min-h-screen overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(137,170,204,0.24),transparent_34%),linear-gradient(90deg,rgba(5,6,8,0.96),rgba(5,6,8,0.72)_45%,rgba(5,6,8,0.92))]" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[#050608]" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-b from-transparent to-[#050608]" />
 
-        <header className="fixed left-1/2 top-5 z-50 mx-auto flex w-[calc(100%-2rem)] max-w-4xl -translate-x-1/2 items-center justify-between overflow-hidden rounded-[64px] border border-white/12 bg-white/[0.055] px-4 py-3 shadow-[0_18px_80px_rgba(0,0,0,0.35)] backdrop-blur-2xl before:absolute before:inset-0  before:opacity-70 after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_20%_0%,rgba(137,170,204,0.16),transparent_34%)] md:px-5">
+        <header className="fixed left-1/2 top-5 z-50 mx-auto flex w-[calc(100%-2rem)] max-w-4xl -translate-x-1/2 items-center justify-between overflow-hidden rounded-[64px] border border-white/12 bg-white/5.5 px-4 py-3 shadow-[0_18px_80px_rgba(0,0,0,0.35)] backdrop-blur-2xl before:absolute before:inset-0  before:opacity-70 after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_20%_0%,rgba(137,170,204,0.16),transparent_34%)] md:px-5">
           <a href="#top" className="relative z-10 text-sm font-semibold uppercase text-[#f4f0e8]">
             Adam Salama
           </a>
@@ -179,9 +179,9 @@ export default function Home() {
           </nav>
         </header>
 
-        <div className="relative z-10 mx-auto grid min-h-[100svh] max-w-7xl content-center items-center gap-12 px-5 pb-12 pt-28 md:grid-cols-[1.08fr_0.92fr] md:px-8 md:pb-12 md:pt-28">
+        <div className="relative z-10 mx-auto grid min-h-svh max-w-7xl content-center items-center gap-12 px-5 pb-12 pt-28 md:grid-cols-[1.08fr_0.92fr] md:px-8 md:pb-12 md:pt-28">
           <div className="max-w-4xl">
-            <p className="mb-5 w-fit rounded-full border border-white/12 bg-white/[0.04] px-4 py-2 text-xs font-semibold uppercase text-[#c9d8e8]">
+            <p className="mb-5 w-fit rounded-full border border-white/12 bg-white/4 px-4 py-2 text-xs font-semibold uppercase text-[#c9d8e8]">
               Développeur Full-Stack - Paris - Disponible CDI
             </p>
             <h1 className="max-w-5xl text-6xl font-semibold leading-[0.9] text-white md:text-8xl">
@@ -210,7 +210,7 @@ export default function Home() {
 
           <aside className="mb-2 hidden justify-self-end md:block">
             <div className="relative h-[430px] w-[470px]">
-              <div className="absolute left-0 top-0 aspect-square w-[360px] overflow-hidden rounded-full border border-white/12 bg-white/[0.04] p-3 shadow-2xl shadow-black/40">
+              <div className="absolute left-0 top-0 aspect-square w-[360px] overflow-hidden rounded-full border border-white/12 bg-white/4 p-3 shadow-2xl shadow-black/40">
                 <div className="relative h-full w-full overflow-hidden rounded-full">
                   <Image
                     src="/adam-salama.jpg"

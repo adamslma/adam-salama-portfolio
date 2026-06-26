@@ -35,7 +35,7 @@ export function LoadingCounter() {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] grid place-items-center bg-[#050608] transition duration-700 ${
+      className={`fixed inset-0 z-100 grid place-items-center bg-[#050608] transition duration-700 ${
         isLoaded ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
       aria-hidden={isLoaded}
@@ -113,7 +113,7 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
           <div className="mb-10">
             <div className="mb-6 flex items-center gap-3">
               <span className="h-px w-10 bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
-              <p className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
+              <p className="rounded-full border border-white/10 bg-white/4 px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
                 Exploration
               </p>
             </div>
@@ -131,10 +131,10 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
             {galleryItems.map((item, index) => (
               <article
                 key={item.title}
-                className="relative min-h-[320px] overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.055] p-5 shadow-2xl shadow-black/35 backdrop-blur-md"
+                className="relative min-h-80 overflow-hidden rounded-lg border border-white/10 bg-white/5.5 p-5 shadow-2xl shadow-black/35 backdrop-blur-md"
               >
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(137,170,204,0.16),transparent_38%)]" />
-                <div className="relative flex min-h-[280px] flex-col justify-between">
+                <div className="relative flex min-h-70 flex-col justify-between">
                   <div>
                     <p className="text-xs font-semibold uppercase text-[#89AACC]">{item.label}</p>
                     <h3 className="mt-5 text-3xl font-semibold text-white">{item.title}</h3>
@@ -166,7 +166,7 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
           <div className="self-center md:pr-4">
             <div className="mb-6 flex items-center gap-3">
                 <span className="h-px w-10 bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
-                <p className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
+                <p className="rounded-full border border-white/10 bg-white/4 px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
                   Exploration
                 </p>
               </div>
@@ -186,7 +186,7 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
             </div>
           </div>
 
-          <div className="relative h-[72vh] min-h-[520px] min-w-0 overflow-hidden">
+          <div className="relative h-[72vh] min-h-130 min-w-0 overflow-hidden">
               {galleryItems.map((item, index) => {
                 const itemProgress = scrollProgress * (galleryItems.length - 1);
                 const distance = Math.abs(index - itemProgress);
@@ -197,7 +197,7 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
                 return (
                   <article
                     key={item.title}
-                    className="absolute left-0 top-1/2 h-[360px] w-full overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.055] p-6 shadow-2xl shadow-black/50 backdrop-blur-md transition-[border-color,opacity,transform] duration-200 ease-out will-change-transform"
+                    className="absolute left-0 top-1/2 h-90 w-full overflow-hidden rounded-lg border border-white/10 bg-white/5.5 p-6 shadow-2xl shadow-black/50 backdrop-blur-md transition-[border-color,opacity,transform] duration-200 ease-out will-change-transform"
                     style={{
                       transform: `translate3d(0, ${offset}px, 0) translateY(-50%) scale(${scale})`,
                       opacity,

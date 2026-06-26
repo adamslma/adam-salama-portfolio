@@ -216,12 +216,12 @@ export default async function Home({ params }: LocalePageProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[250px] md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-fr md:grid-cols-3 lg:auto-rows-[250px]">
           {dictionary.achievements.map((item, index) => (
             <article
               key={item.title}
               data-mobile-scroll-card
-              className={`group relative min-h-[260px] overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] p-5 transition duration-500 hover:-translate-y-1 hover:border-[#89AACC]/55 sm:min-h-[280px] sm:p-6 md:min-h-0 ${item.className}`}
+              className={`group relative min-h-[260px] overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] p-5 transition duration-500 hover:-translate-y-1 hover:border-[#89AACC]/55 sm:min-h-[280px] sm:p-6 md:min-h-[310px] lg:min-h-0 ${item.className}`}
             >
               <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(137,170,204,0.20),transparent_36%)]" />
@@ -229,10 +229,10 @@ export default async function Home({ params }: LocalePageProps) {
               <div className="relative flex h-full flex-col justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase text-[#89AACC]">{item.eyebrow}</p>
-                  <h3 className="mt-4 text-2xl font-semibold leading-tight text-white sm:text-3xl">
+                  <h3 className="mt-4 text-2xl font-semibold leading-tight text-white sm:text-3xl md:text-2xl xl:text-3xl">
                     {item.title}
                   </h3>
-                  <p className="mt-4 max-w-xl text-sm leading-7 text-white/58">{item.body}</p>
+                  <p className="mt-4 max-w-xl text-sm leading-7 text-white/58 md:leading-6 xl:leading-7">{item.body}</p>
                 </div>
                 <div className="mt-6 flex min-w-0 items-end justify-between gap-4 md:mt-0">
                   <span className="font-serif text-5xl italic text-white/12 sm:text-6xl">0{index + 1}</span>

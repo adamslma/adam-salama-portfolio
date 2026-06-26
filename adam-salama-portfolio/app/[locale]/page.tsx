@@ -2,6 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { DocumentLanguage } from "../document-language";
+import { ImpactMetricSlider } from "../impact-metric-slider";
 import { LanguageSwitcher } from "../language-switcher";
 import { getDictionary, isLocale, locales, type Locale } from "../i18n";
 import { MobileScrollCards } from "../mobile-scroll-cards";
@@ -183,11 +184,10 @@ export default async function Home({ params }: LocalePageProps) {
                 </div>
               </div>
 
-              <div className="absolute bottom-6 right-0 w-[245px] rounded-[8px] border border-white/10 bg-black/42 p-5 shadow-2xl shadow-black/35 backdrop-blur-xl">
-                <p className="text-xs uppercase text-white/46">{dictionary.hero.impactLabel}</p>
-                <p className="mt-2 text-4xl font-semibold text-white">{dictionary.hero.impactMetric}</p>
-                <p className="mt-1 text-sm leading-6 text-white/60">{dictionary.hero.impactText}</p>
-              </div>
+              <ImpactMetricSlider
+                label={dictionary.hero.impactLabel}
+                items={dictionary.hero.impactItems}
+              />
             </div>
           </aside>
         </div>

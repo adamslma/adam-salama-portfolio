@@ -36,6 +36,28 @@ const dictionaries = {
       impactLabel: "Impact mesuré",
       impactMetric: "5 400+",
       impactText: "candidatures traitées par automatisation RH",
+      impactItems: [
+        {
+          value: 5400,
+          suffix: "+",
+          text: "candidatures traitées par automatisation RH",
+        },
+        {
+          value: 29000,
+          suffix: "+",
+          text: "actions chronophages automatisées",
+        },
+        {
+          value: 2,
+          suffix: "",
+          text: "postes RH économisés par l'automatisation",
+        },
+        {
+          value: 4,
+          suffix: "",
+          text: "développeurs juniors accompagnés en lead technique",
+        },
+      ],
     },
     achievementsSection: {
       label: "Réalisations",
@@ -168,6 +190,28 @@ const dictionaries = {
       impactLabel: "Measured impact",
       impactMetric: "5,400+",
       impactText: "applications processed through HR automation",
+      impactItems: [
+        {
+          value: 5400,
+          suffix: "+",
+          text: "applications processed through HR automation",
+        },
+        {
+          value: 29000,
+          suffix: "+",
+          text: "time-consuming actions automated",
+        },
+        {
+          value: 2,
+          suffix: "",
+          text: "HR roles saved through automation",
+        },
+        {
+          value: 4,
+          suffix: "",
+          text: "junior developers mentored as technical lead",
+        },
+      ],
     },
     achievementsSection: {
       label: "Work",

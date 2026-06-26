@@ -3,9 +3,9 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { DocumentLanguage } from "../document-language";
 import { ImpactMetricSlider } from "../impact-metric-slider";
-import { LanguageSwitcher } from "../language-switcher";
 import { getDictionary, isLocale, locales, type Locale } from "../i18n";
 import { MobileScrollCards } from "../mobile-scroll-cards";
+import { PortfolioHeader } from "../portfolio-header";
 import { LoadingCounter, ParallaxGallery } from "../portfolio-experience";
 import { ProjectCards } from "../project-cards";
 
@@ -105,40 +105,7 @@ export default async function Home({ params }: LocalePageProps) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(137,170,204,0.24),transparent_34%),linear-gradient(90deg,rgba(5,6,8,0.96),rgba(5,6,8,0.72)_45%,rgba(5,6,8,0.92))]" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-b from-transparent to-[#050608]" />
 
-        <header className="fixed left-1/2 top-5 z-50 mx-auto flex w-[calc(100%-2rem)] max-w-5xl -translate-x-1/2 items-center justify-between overflow-visible rounded-[64px] border border-white/12 bg-white/5.5 px-4 py-3 shadow-[0_18px_80px_rgba(0,0,0,0.35)] backdrop-blur-2xl before:absolute before:inset-0 before:rounded-[inherit] before:opacity-70 after:absolute after:inset-0 after:rounded-[inherit] after:bg-[radial-gradient(circle_at_20%_0%,rgba(137,170,204,0.16),transparent_34%)] md:px-5">
-          <a href="#top" className="relative z-10 text-sm font-semibold text-[#f4f0e8]">
-            Adam Salama
-          </a>
-          <nav className="relative z-10 flex items-center gap-2 text-sm text-[#f4f0e8]/68">
-            <a className="group relative hidden overflow-hidden rounded-full border border-white/0 px-3 py-2 transition hover:border-[#89AACC]/45 hover:text-white sm:inline-flex" href="#work">
-              <span className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
-                <span className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(137,170,204,0.20),transparent_36%)]" />
-              </span>
-              <span className="relative">{dictionary.nav.work}</span>
-            </a>
-            <a className="group relative hidden overflow-hidden rounded-full border border-white/0 px-3 py-2 transition hover:border-[#89AACC]/45 hover:text-white sm:inline-flex" href="#explore">
-              <span className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
-                <span className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(137,170,204,0.20),transparent_36%)]" />
-              </span>
-              <span className="relative">{dictionary.nav.explore}</span>
-            </a>
-            <a
-              className="group relative inline-flex h-9 items-center overflow-hidden rounded-full border border-white/14 bg-white/[0.035] px-4 text-white transition duration-500 hover:-translate-y-0.5 hover:border-[#89AACC]/55"
-              href={dictionary.cvPath}
-              download
-            >
-              <span className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
-                <span className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(137,170,204,0.20),transparent_36%)]" />
-              </span>
-              <span className="relative">{dictionary.nav.cv}</span>
-            </a>
-            <LanguageSwitcher
-              locale={locale}
-              label={dictionary.nav.languageLabel}
-              languageNames={dictionary.nav.languageNames}
-            />
-          </nav>
-        </header>
+        <PortfolioHeader locale={locale} cvPath={dictionary.cvPath} nav={dictionary.nav} />
 
         <div className="relative z-10 mx-auto grid min-h-svh max-w-7xl content-center items-center gap-12 px-5 pb-12 pt-28 md:grid-cols-[1.08fr_0.92fr] md:px-8 md:pb-12 md:pt-28">
           <div className="max-w-4xl">

@@ -13,7 +13,7 @@ const localeCountries: Record<Locale, string> = {
 type LanguageSwitcherProps = {
   locale: Locale;
   label: string;
-  languageNames: Record<Locale, string>;
+  languageNames: Readonly<Record<Locale, string>>;
 };
 
 function Flag({ locale, label }: { locale: Locale; label: string }) {

@@ -26,7 +26,7 @@ const dictionaries = {
       },
     },
     loading: "Chargement",
-    cvPath: "/cv-adam-salama-2026-fr.pdf",
+    cvPath: "/cv-adam-salama-2026.pdf",
     hero: {
       badge: "Développeur Full-Stack - Paris - Disponible CDI",
       line: "architecture & ship des produits métier.",
@@ -197,7 +197,7 @@ const dictionaries = {
       },
     },
     loading: "Loading",
-    cvPath: "/cv-adam-salama-2026-en.pdf",
+    cvPath: "/resume-adam-salama-2026.pdf",
     hero: {
       badge: "Full-Stack Developer - Paris - Open to full-time roles",
       line: "architecture & shipping business products.",

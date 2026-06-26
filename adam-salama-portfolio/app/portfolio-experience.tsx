@@ -42,7 +42,7 @@ export function LoadingCounter() {
     >
       <div className="w-[min(460px,calc(100vw-2rem))]">
         <div className="mb-4 flex items-end justify-between">
-          <p className="text-xs font-semibold uppercase text-white/48">Loading portfolio</p>
+          <p className="text-xs font-semibold uppercase text-white/48">Chargement</p>
           <p className="font-serif text-7xl italic text-white">
             {loading.toString().padStart(3, "0")}
           </p>

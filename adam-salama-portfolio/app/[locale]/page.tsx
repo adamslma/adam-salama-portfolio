@@ -106,7 +106,7 @@ export default async function Home({ params }: LocalePageProps) {
         <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-b from-transparent to-[#050608]" />
 
         <header className="fixed left-1/2 top-5 z-50 mx-auto flex w-[calc(100%-2rem)] max-w-5xl -translate-x-1/2 items-center justify-between overflow-visible rounded-[64px] border border-white/12 bg-white/5.5 px-4 py-3 shadow-[0_18px_80px_rgba(0,0,0,0.35)] backdrop-blur-2xl before:absolute before:inset-0 before:rounded-[inherit] before:opacity-70 after:absolute after:inset-0 after:rounded-[inherit] after:bg-[radial-gradient(circle_at_20%_0%,rgba(137,170,204,0.16),transparent_34%)] md:px-5">
-          <a href="#top" className="relative z-10 text-sm font-semibold uppercase text-[#f4f0e8]">
+          <a href="#top" className="relative z-10 text-sm font-semibold text-[#f4f0e8]">
             Adam Salama
           </a>
           <nav className="relative z-10 flex items-center gap-2 text-sm text-[#f4f0e8]/68">

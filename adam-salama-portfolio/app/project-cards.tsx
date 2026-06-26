@@ -142,12 +142,15 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
 
   return (
     <div
-      className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:auto-rows-[minmax(230px,auto)] md:grid-cols-3 lg:auto-rows-[300px]"
+      className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:auto-rows-[minmax(230px,auto)] md:grid-cols-3 lg:grid-flow-dense lg:auto-rows-[300px] data-[project-grid=active]:lg:auto-rows-[180px]"
       data-project-grid={activeIndex === null ? "idle" : "active"}
     >
       {projects.map((item, index) => {
         const isActive = activeIndex === index;
         const isMinimized = activeIndex !== null && !isActive;
+        const minimizedPosition =
+          activeIndex === null || isActive ? -1 : index < activeIndex ? index : index - 1;
+        const isTallMinimized = minimizedPosition === 0;
 
         return (
           <button
@@ -172,11 +175,12 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
               hasInteractedWithProjects ? "is-mobile-scroll-visible" : "",
               item.className,
               isActive
-                ? "min-h-[560px] sm:col-span-2 sm:min-h-[500px] md:col-span-3 md:min-h-[420px] lg:min-h-0 border-[#89AACC]/55 bg-white/[0.065] shadow-2xl shadow-[#050608]/55"
+                ? "min-h-[560px] sm:col-span-2 sm:min-h-[500px] md:col-span-3 md:min-h-[420px] lg:row-span-2 lg:min-h-0 border-[#89AACC]/55 bg-white/[0.065] shadow-2xl shadow-[#050608]/55"
                 : "",
               isMinimized
-                ? "min-h-[116px] p-4 opacity-[0.54] sm:min-h-[160px] sm:p-5 md:min-h-0 md:scale-[0.975] md:p-6 hover:opacity-[0.78]"
+                ? "min-h-[116px] p-4 opacity-[0.54] sm:min-h-[160px] sm:p-5 md:min-h-0 md:scale-[0.975] md:p-6 lg:col-span-1 hover:opacity-[0.78]"
                 : "",
+              isTallMinimized ? "lg:row-span-2" : isMinimized ? "lg:row-span-1" : "",
             ].join(" ")}
           >
             <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 group-data-[project-card=active]:opacity-100">
@@ -224,6 +228,8 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
                       !isActive ? "line-clamp-3" : "",
                       isActive ? "lg:mt-3 lg:line-clamp-3 lg:text-[13px] lg:leading-6" : "",
                       isMinimized ? "hidden opacity-[0.62] sm:line-clamp-2 sm:block" : "",
+                      isMinimized && !isTallMinimized ? "lg:hidden" : "",
+                      isTallMinimized ? "lg:line-clamp-3" : "",
                     ].join(" ")}
                   >
                     {item.body}
@@ -267,6 +273,7 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
                   "mt-auto flex min-w-0 items-end justify-between gap-4 transition duration-500",
                   isActive ? "lg:mt-0" : "",
                   isMinimized ? "hidden sm:flex" : "",
+                  isMinimized && !isTallMinimized ? "lg:hidden" : "",
                 ].join(" ")}
               >
                 <span

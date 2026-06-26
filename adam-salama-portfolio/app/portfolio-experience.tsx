@@ -60,10 +60,7 @@ export function LoadingCounter() {
 
 export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] }) {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [maxTravel, setMaxTravel] = useState(0);
   const galleryRef = useRef<HTMLElement | null>(null);
-  const viewportRef = useRef<HTMLDivElement | null>(null);
-  const trackRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -77,12 +74,6 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
       const total = rect.height - window.innerHeight;
       const progress = total > 0 ? Math.min(Math.max(-rect.top / total, 0), 1) : 0;
       setScrollProgress(progress);
-
-      if (viewportRef.current && trackRef.current) {
-        const viewportWidth = viewportRef.current.clientWidth;
-        const trackWidth = trackRef.current.scrollWidth;
-        setMaxTravel(Math.max(trackWidth - viewportWidth, 0));
-      }
     };
 
     const onScroll = () => {
@@ -110,7 +101,7 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
     >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_55%_42%,rgba(137,170,204,0.16),transparent_35%)]" />
-        <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-5 md:grid-cols-[0.66fr_1.34fr] md:px-8">
+        <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-5 md:grid-cols-[0.66fr_minmax(0,1.34fr)] md:px-8">
           <div className="self-center md:pr-4">
             <p className="text-sm font-semibold uppercase text-[#89AACC]">Exploration</p>
             <h2 className="mt-4 text-5xl font-semibold leading-none text-white md:text-7xl">
@@ -129,28 +120,23 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
             </div>
           </div>
 
-          <div ref={viewportRef} className="relative h-[64vh] min-h-[430px] overflow-visible">
-            <div
-              ref={trackRef}
-              className="absolute left-0 top-1/2 flex -translate-y-1/2 gap-5 will-change-transform"
-              style={{
-                transform: `translate3d(${-scrollProgress * maxTravel}px, -50%, 0)`,
-              }}
-            >
+          <div className="relative h-[72vh] min-h-[520px] min-w-0 overflow-hidden">
               {galleryItems.map((item, index) => {
                 const itemProgress = scrollProgress * (galleryItems.length - 1);
                 const distance = Math.abs(index - itemProgress);
+                const offset = (index - itemProgress) * 390;
                 const scale = 1 - Math.min(distance * 0.08, 0.18);
                 const opacity = 1 - Math.min(distance * 0.28, 0.5);
 
                 return (
                   <article
                     key={item.title}
-                    className="relative h-[360px] w-[72vw] shrink-0 overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.055] p-6 shadow-2xl shadow-black/50 backdrop-blur-md transition-[border-color,opacity,transform] duration-200 ease-out md:w-[520px]"
+                    className="absolute left-0 top-1/2 h-[360px] w-full overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.055] p-6 shadow-2xl shadow-black/50 backdrop-blur-md transition-[border-color,opacity,transform] duration-200 ease-out will-change-transform"
                     style={{
-                      transform: `scale(${scale})`,
+                      transform: `translate3d(0, ${offset}px, 0) translateY(-50%) scale(${scale})`,
                       opacity,
                       transformOrigin: "center",
+                      zIndex: galleryItems.length - Math.round(distance),
                     }}
                   >
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(137,170,204,0.16),transparent_38%)]" />
@@ -168,7 +154,6 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
                   </article>
                 );
               })}
-            </div>
           </div>
         </div>
       </div>

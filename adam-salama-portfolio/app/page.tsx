@@ -1,46 +1,46 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { LoadingCounter, ParallaxGallery } from "./portfolio-experience";
 
 const achievements = [
   {
     title: "Refonte CFP 2.0",
     eyebrow: "Lead full-stack",
-    body: "Pilotage de 4 developpeurs, cadrage technique, sprints et revues de code sur une refonte produit stratgique.",
+    body: "Lead technique d'une équipe de 4 développeurs juniors. Cadrage de l'architecture, code reviews et fiabilisation d'un produit stratégique.",
     metric: "4 devs",
     className: "md:col-span-2",
   },
   {
     title: "Automatisation RH",
     eyebrow: "Workflow APIs",
-    body: "Evaluation automatisée via Welcome To The Jungle et TestGorilla pour absorber le volume de candidatures.",
+    body: "Conception de pipelines d'intégration d'APIs (WTTJ, TestGorilla) automatisant plus de 29 000 actions chronophages.",
     metric: "29k actions",
     className: "",
   },
   {
     title: "CI optimisée", 
     eyebrow: "Delivery",
-    body: "Refonte de la chaine d'integration pour réduire les temps d'attente et fluidifier les deploiements.",
+    body: "Refonte de la chaine d'intégration pour réduire les temps d'attente et fluidifier les deploiements.",
     metric: "x3",
     className: "",
   },
   {
     title: "CRM SDR",
-    eyebrow: "Backend metier",
+    eyebrow: "Backend métier",
     body: "Centralisation des leads via webhooks, consolidation des sources et optimisation du tracking UTM.",
     metric: "CRM",
     className: "md:col-span-2",
   },
   {
-    title: "NOTHERA",
+    title: "Nothera",
     eyebrow: "Projet IA",
-    body: "Transcription audio, structuration de notes cliniques et connexion d'agendas externes pour therapeutes.",
+    body: "Création d'un SaaS métier de A à  Z. IA (Deepgram/Sonar) pour la transcription clinique et interopérabilité des agendas.",
     metric: "IA",
     className: "md:col-span-2",
   },
   {
     title: "Portails clients",
     eyebrow: "Produit",
-    body: "Dashboards, parrainage et parcours de suivi pour CGP, investisseurs et equipes internes.",
+    body: "Dashboards, parrainage et parcours de suivi pour CGP, investisseurs et équipes internes.",
     metric: "UX",
     className: "",
   },
@@ -48,24 +48,24 @@ const achievements = [
 
 const galleryItems = [
   {
-    title: "Architecture produit",
-    label: "Fastify / React / TypeScript",
-    text: "Des fondations maintenables pour des produits business qui evoluent vite.",
+    title: "Architecture & Modélisation Data",
+    label: "SQL / TypeScript / API Contracts",
+    text: "Définir des schémas de base de données et des contrats d'interface robustes. Concevoir des systèmes back-end performants pour des interfaces complexes et denses.",
   },
   {
-    title: "Automatisation",
-    label: "Python / APIs / Workflows",
-    text: "Remplacer les taches repetitives par des pipelines fiables et observables.",
+    title: "Ingénierie IA & Workflows",
+    label: "LLMs / Whisper / Prompts structurés",
+    text: "Passer du PoC au produit métier. Intégration d'IA pour traiter de la donnée non structurée (ex: audio vers notes cliniques) via des pipelines d'API fiables.",
   },
   {
-    title: "Interfaces metier",
-    label: "Next.js / Angular / Dashboards",
-    text: "Des interfaces denses, lisibles et utiles pour les operations quotidiennes.",
+    title: "Scalabilité Opérationnelle",
+    label: "Webhooks / APIs / Python",
+    text: "Remplacer les process manuels par du code. Création de systèmes autonomes capables d'absorber des dizaines de milliers d'actions sans intervention humaine.",
   },
   {
-    title: "Delivery",
-    label: "Docker / CircleCI / Reviews",
-    text: "Raccourcir la boucle build-test-deploy sans sacrifier la qualite.",
+    title: "Qualité & Delivery en équipe",
+    label: "CI-CD / Code Reviews / Lead Tech",
+    text: "Sécuriser le déploiement sur des refontes critiques. Mise en place de pipelines stricts et accompagnement de développeurs pour shiper vite et sans régression.",
   },
 ];
 
@@ -194,7 +194,7 @@ export default function Home() {
               </span>
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-white/64">
-              Plus de 3 ans d'expérience terrain. De la refonte des systèmes à l'automatisation de workflows complexes, je construis des applications robustes faites pour évoluer.
+              Plus de 3 ans d&apos;expérience terrain. De la refonte des systèmes à  l&apos;automatisation de workflows complexes, je construis des applications robustes faites pour évoluer.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -308,7 +308,7 @@ export default function Home() {
           <div>
             <p className="text-sm uppercase text-[#89AACC]">Disponible</p>
             <h2 className="mt-3 max-w-2xl text-4xl font-semibold text-white md:text-5xl">
-              Prêt à shiper. Parlons de vos prochains défis techniques.
+              Prêt à  shiper. Parlons de vos prochains défis techniques.
             </h2>
             <p className="mt-5">Vous cherchez un profil autonome pour renforcer votre équipe ? Discutons-en.</p>
             <p className="mt-5 text-white/54">Paris - adam.salama2002@gmail.com</p>

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Adam Salama | Developpeur Full-Stack",
+  title: "Adam Salama | Développeur Full-Stack",
   description:
-    "Portfolio d'Adam Salama, developpeur full-stack oriente performance, automatisation et applications metier.",
+    "Portfolio d'Adam Salama, développeur full-stack orienté performance, automatisation et applications métier.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

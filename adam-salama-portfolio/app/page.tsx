@@ -54,7 +54,7 @@ const galleryItems = [
   },
   {
     title: "Ingénierie IA & Workflows",
-    label: "LLMs / Whisper / Prompts structurés",
+    label: "LLMs / Prompts structurés",
     text: "Passer du PoC au produit métier. Intégration d'IA pour traiter de la donnée non structurée (ex: audio vers notes cliniques) via des pipelines d'API fiables.",
   },
   {

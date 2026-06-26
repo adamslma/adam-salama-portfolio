@@ -43,10 +43,49 @@ function areDesktopRowHeightsEqual(first: DesktopRowHeights, second: DesktopRowH
   );
 }
 
+function measureCardContentHeight(card: HTMLButtonElement, isActive: boolean) {
+  const cardRect = card.getBoundingClientRect();
+  const measuredCard = card.cloneNode(true) as HTMLButtonElement;
+
+  measuredCard.removeAttribute("data-project-animating");
+  measuredCard.style.position = "absolute";
+  measuredCard.style.inset = "0 auto auto -10000px";
+  measuredCard.style.visibility = "hidden";
+  measuredCard.style.pointerEvents = "none";
+  measuredCard.style.width = `${cardRect.width}px`;
+  measuredCard.style.height = "auto";
+  measuredCard.style.minHeight = "0";
+  measuredCard.style.transform = "none";
+  measuredCard.style.transition = "none";
+
+  measuredCard.querySelectorAll<HTMLElement>("*").forEach((element) => {
+    element.style.transition = "none";
+    element.style.animation = "none";
+  });
+
+  const detailsElement = measuredCard.querySelector<HTMLElement>("[data-project-card-details]");
+
+  if (detailsElement) {
+    detailsElement.style.maxHeight = isActive ? "none" : "0px";
+    detailsElement.style.opacity = isActive ? "1" : "0";
+    detailsElement.style.transform = isActive ? "translateY(0)" : "translateY(0.75rem)";
+  }
+
+  document.body.appendChild(measuredCard);
+
+  const borderHeight = measuredCard.offsetHeight - measuredCard.clientHeight;
+  const measuredHeight = measuredCard.scrollHeight + borderHeight;
+
+  measuredCard.remove();
+
+  return measuredHeight;
+}
+
 function measureDesktopRowHeights(
   gridElement: HTMLDivElement | null,
   cardElements: ReadonlyMap<number, HTMLButtonElement>,
   activeIndex: number | null,
+  currentHeights: DesktopRowHeights
 ): DesktopRowHeights {
   if (!gridElement || !window.matchMedia("(min-width: 1024px)").matches) {
     return {
@@ -56,30 +95,28 @@ function measureDesktopRowHeights(
   }
 
   const rowGap = Number.parseFloat(window.getComputedStyle(gridElement).rowGap) || 0;
-  let nextIdleHeight = MIN_DESKTOP_IDLE_ROW_HEIGHT;
-  let nextActiveHeight = MIN_DESKTOP_ACTIVE_ROW_HEIGHT;
+  let maxRequiredHeight = 0;
 
   cardElements.forEach((card, index) => {
     const isCardActive = activeIndex === index;
     const isCardMinimized = activeIndex !== null && !isCardActive;
     const minimizedPosition = getMinimizedPosition(activeIndex, index, isCardActive);
     const rowSpan = isCardActive || (isCardMinimized && minimizedPosition === 0) ? 2 : 1;
-    const borderHeight = card.offsetHeight - card.clientHeight;
-    const trueContentHeight = card.scrollHeight + borderHeight;
-    
+
+    const trueContentHeight = measureCardContentHeight(card, isCardActive);
     const requiredRowHeight = Math.ceil((trueContentHeight - rowGap * (rowSpan - 1)) / rowSpan);
 
-    if (activeIndex === null) {
-      nextIdleHeight = Math.max(nextIdleHeight, requiredRowHeight);
-      return;
-    }
-
-    nextActiveHeight = Math.max(nextActiveHeight, requiredRowHeight);
+    maxRequiredHeight = Math.max(maxRequiredHeight, requiredRowHeight);
   });
 
+  const activeHeightFromIdle = Math.ceil((currentHeights.idle - rowGap) / 2);
+
   return {
-    idle: nextIdleHeight,
-    active: nextActiveHeight,
+    idle: activeIndex === null ? Math.max(MIN_DESKTOP_IDLE_ROW_HEIGHT, maxRequiredHeight) : currentHeights.idle,
+    active:
+      activeIndex !== null
+        ? Math.max(MIN_DESKTOP_ACTIVE_ROW_HEIGHT, activeHeightFromIdle, maxRequiredHeight)
+        : currentHeights.active,
   };
 }
 
@@ -139,13 +176,14 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
     let measuredGridWidth = 0;
 
     const measureRows = () => {
-      const nextRowHeights = measureDesktopRowHeights(
-        gridElement,
-        cardElementsRef.current,
-        activeIndexRef.current,
-      );
-
       setDesktopRowHeights((currentHeights) => {
+        const nextRowHeights = measureDesktopRowHeights(
+          gridElement,
+          cardElementsRef.current,
+          activeIndexRef.current,
+          currentHeights
+        );
+
         if (areDesktopRowHeightsEqual(currentHeights, nextRowHeights)) {
           return currentHeights;
         }
@@ -196,6 +234,7 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
       gridElementRef.current,
       cardElementsRef.current,
       activeIndex,
+      desktopRowHeights
     );
 
     if (!areDesktopRowHeightsEqual(desktopRowHeights, nextRowHeights)) {
@@ -397,6 +436,7 @@ export function ProjectCards({ projects, labels }: ProjectCardsProps) {
                 </div>
 
                 <div
+                  data-project-card-details
                   className={[
                     "overflow-hidden transition-[max-height,opacity,transform] duration-[620ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
                     isActive

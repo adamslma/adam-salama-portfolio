@@ -48,6 +48,29 @@ video {
   background: #050608;
 }
 
+.project-card-shell {
+  --project-flip-x: 0px;
+  --project-flip-y: 0px;
+  --project-flip-scale-x: 1;
+  --project-flip-scale-y: 1;
+  backface-visibility: hidden;
+  transform: translate3d(var(--project-flip-x), var(--project-flip-y), 0)
+    scale(var(--project-flip-scale-x), var(--project-flip-scale-y));
+  transform-origin: top left;
+}
+
+.project-card-shell[data-project-animating="true"] {
+  transition:
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    min-height 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    padding 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
 .marquee-track {
   animation: marquee 22s linear infinite;
 }
@@ -79,7 +102,13 @@ video {
 @media (max-width: 767px) {
   [data-mobile-scroll-card] {
     opacity: 0;
-    transform: translate3d(0, 30px, 0) scale(0.95);
+    transform: translate3d(
+        var(--project-flip-x),
+        calc(var(--project-flip-y) + 30px),
+        0
+      )
+      scale(var(--project-flip-scale-x), var(--project-flip-scale-y))
+      scale(0.95);
     transition:
       opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
       transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -89,7 +118,23 @@ video {
 
   [data-mobile-scroll-card].is-mobile-scroll-visible {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(var(--project-flip-x), var(--project-flip-y), 0)
+      scale(var(--project-flip-scale-x), var(--project-flip-scale-y))
+      scale(1);
+  }
+
+  [data-mobile-scroll-card][data-project-card="active"] {
+    opacity: 1 !important;
+    transform: translate3d(var(--project-flip-x), var(--project-flip-y), 0)
+      scale(var(--project-flip-scale-x), var(--project-flip-scale-y))
+      scale(1) !important;
+  }
+
+  [data-project-card="minimized"].is-mobile-scroll-visible {
+    opacity: 0.54;
+    transform: translate3d(var(--project-flip-x), var(--project-flip-y), 0)
+      scale(var(--project-flip-scale-x), var(--project-flip-scale-y))
+      scale(0.975);
   }
 }
 

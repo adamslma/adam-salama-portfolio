@@ -139,6 +139,7 @@ export function ParallaxGallery({ copy }: { copy: GalleryCopy }) {
             {galleryItems.map((item, index) => (
               <article
                 key={item.title}
+                data-mobile-scroll-card
                 className="relative min-h-80 overflow-hidden rounded-lg border border-white/10 bg-white/5.5 p-5 shadow-2xl shadow-black/35 backdrop-blur-md"
               >
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(137,170,204,0.16),transparent_38%)]" />

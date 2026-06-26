@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { DocumentLanguage } from "../document-language";
 import { LanguageSwitcher } from "../language-switcher";
 import { getDictionary, isLocale, locales, type Locale } from "../i18n";
+import { MobileScrollCards } from "../mobile-scroll-cards";
 import { LoadingCounter, ParallaxGallery } from "../portfolio-experience";
 
 type LocalePageProps = {
@@ -95,6 +96,7 @@ export default async function Home({ params }: LocalePageProps) {
   return (
     <main className="min-h-screen overflow-x-clip bg-[#050608] text-[#f4f0e8] selection:bg-[#89AACC] selection:text-[#050608]">
       <DocumentLanguage locale={locale} />
+      <MobileScrollCards />
       <LoadingCounter label={dictionary.loading} />
 
       <section id="top" className="relative min-h-screen overflow-hidden">
@@ -214,11 +216,12 @@ export default async function Home({ params }: LocalePageProps) {
           </div>
         </div>
 
-        <div className="grid auto-rows-[250px] grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[250px] md:grid-cols-3">
           {dictionary.achievements.map((item, index) => (
             <article
               key={item.title}
-              className={`group relative overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] p-6 transition duration-500 hover:-translate-y-1 hover:border-[#89AACC]/55 ${item.className}`}
+              data-mobile-scroll-card
+              className={`group relative min-h-[260px] overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] p-5 transition duration-500 hover:-translate-y-1 hover:border-[#89AACC]/55 sm:min-h-[280px] sm:p-6 md:min-h-0 ${item.className}`}
             >
               <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(137,170,204,0.20),transparent_36%)]" />
@@ -226,18 +229,18 @@ export default async function Home({ params }: LocalePageProps) {
               <div className="relative flex h-full flex-col justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase text-[#89AACC]">{item.eyebrow}</p>
-                  <h3 className="mt-4 text-3xl font-semibold text-white">
+                  <h3 className="mt-4 text-2xl font-semibold leading-tight text-white sm:text-3xl">
                     {item.title}
                   </h3>
                   <p className="mt-4 max-w-xl text-sm leading-7 text-white/58">{item.body}</p>
                 </div>
-                <div className="flex min-w-0 items-end justify-between gap-4">
-                  <span className="font-serif text-6xl italic text-white/12">0{index + 1}</span>
-                  <div className="flex max-w-[75%] flex-wrap justify-end gap-2">
+                <div className="mt-6 flex min-w-0 items-end justify-between gap-4 md:mt-0">
+                  <span className="font-serif text-5xl italic text-white/12 sm:text-6xl">0{index + 1}</span>
+                  <div className="flex max-w-[82%] flex-wrap justify-end gap-2 sm:max-w-[75%]">
                     {item.metrics.map((metric) => (
                       <span
                         key={metric}
-                        className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/70 sm:text-sm"
+                        className="max-w-full rounded-full border border-white/10 px-3 py-1 text-xs text-white/70 sm:text-sm"
                       >
                         {metric}
                       </span>
@@ -262,6 +265,7 @@ export default async function Home({ params }: LocalePageProps) {
           {dictionary.stack.groups.map((group) => (
             <div
               key={group.title}
+              data-mobile-scroll-card
               className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 transition-colors hover:border-white/15"
             >
               <p className="mb-5 font-serif text-xl italic text-white/80">

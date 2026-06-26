@@ -3,17 +3,17 @@ import { LoadingCounter, ParallaxGallery } from "./portfolio-experience";
 
 const achievements = [
   {
-    title: "Refonte CFP 2.0",
-    eyebrow: "Lead full-stack",
-    body: "Lead technique d'une équipe de 4 développeurs juniors. Cadrage de l'architecture, code reviews et fiabilisation d'un produit stratégique.",
-    metric: "4 devs",
+    title: "Automatisation RH",
+    eyebrow: "Workflow APIs",
+    body: "Conception de pipelines d'intégration d'APIs (WTTJ, TestGorilla) automatisant plus de 29 000 actions chronophages, traitement de 5400 candidatures sur 1 an économisant 2 postes.",
+    metrics: ["29k actions", "5 400 candidatures", "2 postes RH"],
     className: "md:col-span-2",
   },
   {
-    title: "Automatisation RH",
-    eyebrow: "Workflow APIs",
-    body: "Conception de pipelines d'intégration d'APIs (WTTJ, TestGorilla) automatisant plus de 29 000 actions chronophages.",
-    metric: "29k actions",
+    title: "Portails clients",
+    eyebrow: "Produit",
+    body: "Dashboards, parrainage et parcours de suivi pour CGP, investisseurs et équipes internes.",
+    metrics: ["UX", "Statistiques"],
     className: "",
   },
   {
@@ -24,24 +24,24 @@ const achievements = [
     className: "",
   },
   {
-    title: "CRM SDR",
-    eyebrow: "Backend métier",
-    body: "Centralisation des leads via webhooks, consolidation des sources et optimisation du tracking UTM.",
-    metric: "CRM",
+    title: "Refonte CFP 2.0",
+    eyebrow: "Lead full-stack",
+    body: "Lead technique d'une équipe de 4 développeurs juniors. Cadrage de l'architecture, code reviews et fiabilisation d'un produit stratégique.",
+    metrics: ["4 devs", "Mentoring", "Code Quality"],
     className: "md:col-span-2",
   },
   {
     title: "Nothera",
     eyebrow: "Projet IA",
     body: "Création d'un SaaS métier de A à  Z. IA (Deepgram/Sonar) pour la transcription clinique et interopérabilité des agendas.",
-    metric: "IA",
+    metrics: ["IA", "Entrepreneuriat"],
     className: "md:col-span-2",
   },
   {
-    title: "Portails clients",
-    eyebrow: "Produit",
-    body: "Dashboards, parrainage et parcours de suivi pour CGP, investisseurs et équipes internes.",
-    metric: "UX",
+    title: "CRM SDR",
+    eyebrow: "Backend métier",
+    body: "Centralisation des leads via webhooks, consolidation des sources et optimisation du tracking UTM.",
+    metric: "CRM",
     className: "",
   },
 ];
@@ -275,11 +275,18 @@ export default function Home() {
                   </h3>
                   <p className="mt-4 max-w-xl text-sm leading-7 text-white/58">{item.body}</p>
                 </div>
-                <div className="flex items-end justify-between">
+                <div className="flex min-w-0 items-end justify-between gap-4">
                   <span className="font-serif text-6xl italic text-white/12">0{index + 1}</span>
-                  <span className="rounded-full border border-white/10 px-3 py-1 text-sm text-white/70">
-                    {item.metric}
-                  </span>
+                  <div className="flex max-w-[75%] flex-wrap justify-end gap-2">
+                    {(item.metrics ?? [item.metric]).filter(Boolean).map((metric) => (
+                      <span
+                        key={metric}
+                        className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/70 sm:text-sm"
+                      >
+                        {metric}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </article>

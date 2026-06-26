@@ -8,7 +8,15 @@ type GalleryItem = {
   text: string;
 };
 
-export function LoadingCounter() {
+type GalleryCopy = {
+  label: string;
+  title: string;
+  titleAccent: string;
+  body: string;
+  items: readonly GalleryItem[];
+};
+
+export function LoadingCounter({ label }: { label: string }) {
   const [loading, setLoading] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -42,7 +50,7 @@ export function LoadingCounter() {
     >
       <div className="w-[min(460px,calc(100vw-2rem))]">
         <div className="mb-4 flex items-end justify-between">
-          <p className="text-xs font-semibold uppercase text-white/48">Chargement</p>
+          <p className="text-xs font-semibold uppercase text-white/48">{label}</p>
           <p className="font-serif text-7xl italic text-white">
             {loading.toString().padStart(3, "0")}
           </p>
@@ -58,10 +66,11 @@ export function LoadingCounter() {
   );
 }
 
-export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] }) {
+export function ParallaxGallery({ copy }: { copy: GalleryCopy }) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
   const galleryRef = useRef<HTMLElement | null>(null);
+  const galleryItems = copy.items;
 
   useEffect(() => {
     let frame = 0;
@@ -114,16 +123,15 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
             <div className="mb-6 flex items-center gap-3">
               <span className="h-px w-10 bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
               <p className="rounded-full border border-white/10 bg-white/4 px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
-                Exploration
+                {copy.label}
               </p>
             </div>
             <h2 className="text-5xl font-semibold leading-none text-white">
-              Une lecture
-              <span className="block font-serif italic text-[#dfe9f4]">en mouvement.</span>
+              {copy.title}
+              <span className="block font-serif italic text-[#dfe9f4]">{copy.titleAccent}</span>
             </h2>
             <p className="mt-6 max-w-sm text-sm leading-7 text-white/54">
-              Chaque panneau met en avant une facette du profil: architecture, automatisation,
-              interfaces metier et delivery.
+              {copy.body}
             </p>
           </div>
 
@@ -167,16 +175,15 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
             <div className="mb-6 flex items-center gap-3">
                 <span className="h-px w-10 bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
                 <p className="rounded-full border border-white/10 bg-white/4 px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
-                  Exploration
+                  {copy.label}
                 </p>
               </div>
             <h2 className="mt-4 text-5xl font-semibold leading-none text-white md:text-7xl">
-              Une lecture
-              <span className="block font-serif italic text-[#dfe9f4]">en mouvement.</span>
+              {copy.title}
+              <span className="block font-serif italic text-[#dfe9f4]">{copy.titleAccent}</span>
             </h2>
             <p className="mt-6 max-w-sm text-sm leading-7 text-white/54">
-              Chaque panneau met en avant une facette du profil: architecture, automatisation,
-              interfaces metier et delivery.
+              {copy.body}
             </p>
             <div className="mt-8 h-px w-full max-w-xs overflow-hidden bg-white/12">
               <div
@@ -190,7 +197,7 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
               {galleryItems.map((item, index) => {
                 const itemProgress = scrollProgress * (galleryItems.length - 1);
                 const distance = Math.abs(index - itemProgress);
-                const offset = (index - itemProgress) * 390;
+              const offset = (index - itemProgress) * 390;
                 const scale = 1 - Math.min(distance * 0.08, 0.18);
                 const opacity = 1 - Math.min(distance * 0.28, 0.5);
 

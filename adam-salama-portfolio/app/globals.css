@@ -60,6 +60,22 @@ video {
   animation: impact-copy-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+@media (min-width: 768px) {
+  .scroll-cue {
+    animation: scroll-cue-float 2.4s ease-in-out infinite;
+  }
+
+  .scroll-cue-dot {
+    animation: scroll-cue-dot 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    margin-left: -0.25rem;
+  }
+
+  .scroll-cue-line {
+    animation: scroll-cue-line 2.4s ease-in-out infinite;
+    transform-origin: top;
+  }
+}
+
 @media (max-width: 767px) {
   [data-mobile-scroll-card] {
     opacity: 0;
@@ -74,6 +90,51 @@ video {
   [data-mobile-scroll-card].is-mobile-scroll-visible {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes scroll-cue-float {
+  0%,
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-50%, 8px, 0);
+  }
+}
+
+@keyframes scroll-cue-dot {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.8);
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(1);
+  }
+}
+
+@keyframes scroll-cue-line {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scaleY(0.72);
+  }
+
+  50% {
+    opacity: 0.78;
+    transform: scaleY(1);
   }
 }
 

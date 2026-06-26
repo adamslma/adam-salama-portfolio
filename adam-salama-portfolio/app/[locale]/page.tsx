@@ -191,6 +191,17 @@ export default async function Home({ params }: LocalePageProps) {
             </div>
           </aside>
         </div>
+
+        <a
+          aria-label={dictionary.nav.work}
+          className="scroll-cue group absolute bottom-8 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-3 text-white/58 transition duration-500 hover:text-white md:flex"
+          href="#work"
+        >
+          <span className="relative h-12 w-7 rounded-full border border-white/24 bg-white/[0.035] shadow-[0_14px_50px_rgba(0,0,0,0.24)] backdrop-blur">
+            <span className="scroll-cue-dot absolute left-1/2 top-2 h-2 w-2 rounded-full bg-[#89AACC]" />
+          </span>
+          <span className="scroll-cue-line h-10 w-px bg-linear-to-b from-[#89AACC] to-transparent" />
+        </a>
       </section>
 
       <section id="work" className="relative mx-auto max-w-7xl px-5 py-24 md:px-8">

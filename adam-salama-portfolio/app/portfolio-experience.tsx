@@ -103,7 +103,12 @@ export function ParallaxGallery({ galleryItems }: { galleryItems: GalleryItem[] 
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_55%_42%,rgba(137,170,204,0.16),transparent_35%)]" />
         <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-5 md:grid-cols-[0.66fr_minmax(0,1.34fr)] md:px-8">
           <div className="self-center md:pr-4">
-            <p className="text-sm font-semibold uppercase text-[#89AACC]">Exploration</p>
+            <div className="mb-6 flex items-center gap-3">
+                <span className="h-px w-10 bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
+                <p className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
+                  Exploration
+                </p>
+              </div>
             <h2 className="mt-4 text-5xl font-semibold leading-none text-white md:text-7xl">
               Une lecture
               <span className="block font-serif italic text-[#dfe9f4]">en mouvement.</span>

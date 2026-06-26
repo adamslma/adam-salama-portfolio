@@ -238,11 +238,27 @@ export default function Home() {
       </section>
 
       <section id="work" className="relative mx-auto max-w-7xl px-5 py-24 md:px-8">
-        <div className="mb-10 grid gap-5 md:grid-cols-[0.8fr_1.2fr] md:items-end">
-          <p className="text-sm font-semibold uppercase text-[#89AACC]">Bento achievements</p>
-          <h2 className="max-w-3xl text-4xl font-semibold leading-tight text-white md:text-6xl">
-            Realisations alternees, entre architecture, automatisation et delivery.
-          </h2>
+        <div className="mb-12 border-t border-white/10 pt-8">
+          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-4xl">
+              <div className="mb-6 flex items-center gap-3">
+                <span className="h-px w-10 bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
+                <p className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
+                  Réalisations
+                </p>
+              </div>
+              <h2 className="text-4xl font-semibold leading-[0.98] text-white md:text-6xl">
+                Des impacts concrets,
+                <span className="block font-serif italic text-[#dfe9f4]">
+                  livrés sur des produits réels.
+                </span>
+              </h2>
+            </div>
+            <p className="max-w-sm text-sm leading-7 text-white/54 md:pb-2">
+              Une sélection de missions où le code a directement amélioré les process,
+              le delivery et la performance opérationnelle.
+            </p>
+          </div>
         </div>
 
         <div className="grid auto-rows-[250px] grid-cols-1 gap-4 md:grid-cols-3">
@@ -276,7 +292,12 @@ export default function Home() {
 
       <section className="mx-auto max-w-7xl px-5 pb-24 md:px-8">
         <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 md:p-8">
-          <p className="text-sm font-semibold uppercase text-[#89AACC]">Stack</p>
+          <div className="mb-6 flex items-center gap-3">
+                <span className="h-px w-10 bg-[linear-gradient(135deg,#89AACC,#4E85BF)]" />
+                <p className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold uppercase text-[#89AACC]">
+                  Stack
+                </p>
+              </div>
           <div className="mt-6 flex flex-wrap gap-2">
             {stack.map((tech) => (
               <span

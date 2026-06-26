@@ -225,9 +225,9 @@ export default function Home() {
               </div>
 
               <div className="absolute bottom-6 right-0 w-[245px] rounded-[8px] border border-white/10 bg-black/42 p-5 shadow-2xl shadow-black/35 backdrop-blur-xl">
-                <p className="text-xs uppercase text-white/46">Impact mesure</p>
+                <p className="text-xs uppercase text-white/46">Impact mesuré</p>
                 <p className="mt-2 text-4xl font-semibold text-white">5 400+</p>
-                <p className="mt-1 text-sm leading-6 text-white/60">candidatures traitees par automatisation RH</p>
+                <p className="mt-1 text-sm leading-6 text-white/60">candidatures traitées par automatisation RH</p>
               </div>
             </div>
           </aside>
